@@ -80,9 +80,6 @@ class Board:
         if (dest_x == p.x) and (
            (dest_y is 3 and p.y is 1 and p.has_moved is False) or
            (dest_y is 4 and p.y is 6 and p.has_moved is False)):
-            print("Passant created at: (" +
-                  str(p.x) + ", " +
-                  str((dest_y+p.y)//2)+")")
             pas = Passant(p.x, (dest_y+p.y)//2, p.team)
             self.grid[(dest_y+p.y)//2][p.x] = pas
 
@@ -104,6 +101,6 @@ class Piece:
 class Passant(Piece):
     def __init__(self, x, y, team):
         self.team = team
-        self.icon = 'X'
+        self.icon = ' '
         self.x = x
         self.y = y

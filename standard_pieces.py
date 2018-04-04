@@ -7,6 +7,7 @@ class PawnW(Piece):
         self.icon = '♟'
         self.x = x
         self.y = y
+        self.has_moved = False
 
     def valid_move_list(self, b):
         valid_moves = []
@@ -25,7 +26,10 @@ class PawnW(Piece):
             valid_moves.append((self.x-1, self.y-1))
 
         # TODO: en passant
-        # TODO: double moves
+        if self.has_moved is False and \
+           b.square_has_piece(self.x, self.y-1) is False and \
+           b.square_has_piece(self.x, self.y-2) is False:
+            valid_moves.append((self.x, self.y-2))
 
         for i in valid_moves:
             if i[0] < 0 or i[1] < 0:
@@ -40,6 +44,7 @@ class PawnB(Piece):
         self.icon = '♟'
         self.x = x
         self.y = y
+        self.has_moved = False
 
     def valid_move_list(self, b):
         valid_moves = []
@@ -58,7 +63,10 @@ class PawnB(Piece):
             valid_moves.append((self.x-1, self.y+1))
 
         # TODO: en passant
-        # TODO: double moves
+        if self.has_moved is False and \
+           b.square_has_piece(self.x, self.y+1) is False and \
+           b.square_has_piece(self.x, self.y+2) is False:
+            valid_moves.append((self.x, self.y+2))
 
         for i in valid_moves:
             if i[0] < 0 or i[1] < 0:

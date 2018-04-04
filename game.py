@@ -63,6 +63,8 @@ class Board:
             # Updating piece
             p.x, p.y = dest_x, dest_y
 
+        p.has_moved = True
+
         return captured_piece, old_x, old_y, dest_x, dest_y
 
 

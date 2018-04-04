@@ -127,6 +127,34 @@ class Rook(Piece):
         return valid_moves
 
 
+class Knight(Piece):
+    def __init__(self, x, y, team):
+        self.team = team
+        self.icon = '♞'
+        self.x = x
+        self.y = y
+
+    def valid_move_list(self, b):
+        valid_moves = []
+
+        if isinstance(b, Board) is False:
+            return valid_moves
+
+        for x, y in [(self.x+1, self.y-2),   # Up-Up-R
+                     (self.x+2, self.y-1),   # Up-R-R
+                     (self.x+2, self.y+1),   # Down-R-R
+                     (self.x+1, self.y+2),   # Down-Down-R
+                     (self.x-1, self.y+2),   # Down-Down-L
+                     (self.x-2, self.y+1),   # Down-L-L
+                     (self.x-2, self.y-1),   # Up-L-L
+                     (self.x-1, self.y-2)]:  # Up-Up-L
+            if b.square_has_piece(x, y) is False or \
+               b.square_has_piece(x, y, opposite_team(self.team)):
+                valid_moves.append((x, y))
+
+        return valid_moves
+
+
 class Bishop(Piece):
     def __init__(self, x, y, team):
         self.team = team

@@ -18,7 +18,10 @@ class StandardBoard(Board):
         self.grid[7][7] = sp.Rook(7, 7, "white")
 
         # Setup Knights
-        # TODO add Knights
+        self.grid[0][1] = sp.Knight(1, 0, "black")
+        self.grid[0][6] = sp.Knight(6, 0, "black")
+        self.grid[7][1] = sp.Knight(1, 7, "white")
+        self.grid[7][6] = sp.Knight(6, 7, "white")
 
         # Setup Bishops
         self.grid[0][2] = sp.Bishop(2, 0, "black")

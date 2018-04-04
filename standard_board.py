@@ -34,5 +34,5 @@ class StandardBoard(Board):
         self.grid[7][3] = sp.Queen(3, 7, "white")
 
         # Setup Kings
-        self.grid[0][4] = sp.King(3, 0, "black")
-        self.grid[7][4] = sp.King(3, 7, "white")
+        self.grid[0][4] = sp.King(4, 0, "black")
+        self.grid[7][4] = sp.King(4, 7, "white")

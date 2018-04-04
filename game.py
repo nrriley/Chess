@@ -39,6 +39,32 @@ class Board:
                         print('+', end=' ')
             print('')
 
+    def move_piece(self, p, dest_x, dest_y):
+        class InvalidMoveError(Exception):
+            pass
+
+        if isinstance(p, Piece) is False:
+            raise TypeError("move_piece() tried to move not a piece")
+
+        try:
+            p.valid_move_list(self).index((dest_x, dest_y))
+        except ValueError:
+            raise InvalidMoveError(
+                    "move_piece() tried to move piece to invalid destination\n" +
+                    "valid moves: " + str(p.valid_move_list(self)) +
+                    "\ntried: (" + str(dest_x) + ", " + str(dest_y) + ")")
+        else:
+            # Setting return values
+            captured_piece = self.grid[dest_y][dest_x]
+            old_x, old_y = p.x, p.y
+            # Updating board
+            self.grid[dest_y][dest_x] = p
+            self.grid[p.y][p.x] = None
+            # Updating piece
+            p.x, p.y = dest_x, dest_y
+
+        return captured_piece, old_x, old_y, dest_x, dest_y
+
 
 class Piece:
     def __init__(self):

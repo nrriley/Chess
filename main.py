@@ -111,9 +111,11 @@ def main(stdscr):
                     continue
             try:
                 avail_moves.index((click_x-board_x, click_y-board_y))
-                # TODO: move_piece() method goes here
-                piece_moved = True
             except ValueError:
+                break
+            else:
+                board.move_piece(selected_piece, click_x-board_x, click_y-board_y)
+                piece_moved = True
                 break
 
         if piece_moved:

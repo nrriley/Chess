@@ -313,3 +313,32 @@ class Queen(Piece):
                 del valid_moves[i]
 
         return valid_moves
+
+
+class King(Piece):
+    def __init__(self, x, y, team):
+        self.team = team
+        self.icon = '♚'
+        self.x = x
+        self.y = y
+
+    def valid_move_list(self, b):
+        valid_moves = []
+
+        if isinstance(b, Board) is False:
+            return valid_moves
+
+        for x, y in [(self.x  , self.y-1),   # Up
+                     (self.x+1, self.y-1),   # Up-R
+                     (self.x+1, self.y  ),   # R
+                     (self.x+1, self.y+1),   # Down-R
+                     (self.x  , self.y+1),   # Down
+                     (self.x-1, self.y+1),   # Down-L
+                     (self.x-1, self.y  ),   # L
+                     (self.x-1, self.y-1)]:  # Up-L
+            if b.square_has_piece(x, y) is False or \
+               b.square_has_piece(x, y, opposite_team(self.team)):
+                valid_moves.append((x, y))
+
+        # TODO: Castling
+        return valid_moves

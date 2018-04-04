@@ -25,7 +25,7 @@ class PawnW(Piece):
         if b.square_has_piece(self.x-1, self.y-1, opposite_team(self.team)):
             valid_moves.append((self.x-1, self.y-1))
 
-        # TODO: en passant
+        # Double Moves
         if self.has_moved is False and \
            b.square_has_piece(self.x, self.y-1) is False and \
            b.square_has_piece(self.x, self.y-2) is False:
@@ -62,7 +62,7 @@ class PawnB(Piece):
         if b.square_has_piece(self.x-1, self.y+1, opposite_team(self.team)):
             valid_moves.append((self.x-1, self.y+1))
 
-        # TODO: en passant
+        # Double Moves
         if self.has_moved is False and \
            b.square_has_piece(self.x, self.y+1) is False and \
            b.square_has_piece(self.x, self.y+2) is False:

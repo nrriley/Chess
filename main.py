@@ -1,6 +1,6 @@
+from standard_board import StandardBoard
 import game
 import curses
-import time
 
 
 def render_board(x_off, y_off, board, stdscr, highlight=[]):
@@ -66,7 +66,7 @@ def main(stdscr):
     curses.init_pair(7, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 
     # Setup pieces
-    board = game.Board()
+    board = StandardBoard()
     board_x = 2
     board_y = 2
 

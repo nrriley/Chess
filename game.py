@@ -55,8 +55,20 @@ class Board:
                     "move_piece() tried to move piece to invalid destination" +
                     "\nvalid moves: " + str(p.valid_move_list(self)) +
                     "\ntried: (" + str(dest_x) + ", " + str(dest_y) + ")")
+
+        # Check for Castling
+        if self.grid[dest_y][dest_x].team == p.team:
+            # Castling Occured
+            # Set return values
+            captured_piece = None
+            old_x, old_y = p.x, p.y
+            # Swap pieces and update board
+            self.grid[p.y][p.x] = self.grid[dest_y][dest_x]
+            self.grid[dest_y][dest_x] = p
+            self.grid[dest_y][dest_x].has_moved = True
         else:
-            # Setting return values
+            # No Castling occured
+            # Set return values
             captured_piece = self.grid[dest_y][dest_x]
             old_x, old_y = p.x, p.y
             # Updating board

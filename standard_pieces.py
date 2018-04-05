@@ -81,6 +81,7 @@ class Rook(Piece):
         self.icon = '♜'
         self.x = x
         self.y = y
+        self.has_moved = False
 
     def valid_move_list(self, b):
         valid_moves = []
@@ -141,6 +142,7 @@ class Knight(Piece):
         self.icon = '♞'
         self.x = x
         self.y = y
+        self.has_moved = False
 
     def valid_move_list(self, b):
         valid_moves = []
@@ -169,6 +171,7 @@ class Bishop(Piece):
         self.icon = '♝'
         self.x = x
         self.y = y
+        self.has_moved = False
 
     def valid_move_list(self, b):
         valid_moves = []
@@ -229,6 +232,7 @@ class Queen(Piece):
         self.icon = '♛'
         self.x = x
         self.y = y
+        self.has_moved = False
 
     def valid_move_list(self, b):
         valid_moves = []
@@ -329,6 +333,7 @@ class King(Piece):
         self.icon = '♚'
         self.x = x
         self.y = y
+        self.has_moved = False
 
     def valid_move_list(self, b):
         valid_moves = []
@@ -336,6 +341,7 @@ class King(Piece):
         if isinstance(b, Board) is False:
             return valid_moves
 
+        # Standard moves
         for x, y in [(self.x  , self.y-1),   # Up
                      (self.x+1, self.y-1),   # Up-R
                      (self.x+1, self.y  ),   # R
@@ -348,5 +354,37 @@ class King(Piece):
                b.square_has_piece(x, y, opposite_team(self.team)):
                 valid_moves.append((x, y))
 
-        # TODO: Castling
+
+        # Castling
+        if self.has_moved is False:
+            if self.team == "white":
+                # Left (Queenside)
+                if isinstance(b.grid[7][0], Rook) and \
+                   b.grid[7][0].has_moved is False:
+                    if b.square_has_piece(1, 7) is False and \
+                       b.square_has_piece(2, 7) is False and \
+                       b.square_has_piece(3, 7) is False:
+                        valid_moves.append((0, 7))
+                # Right (Kingside)
+                if isinstance(b.grid[7][7], Rook) and \
+                   b.grid[7][7].has_moved is False:
+                    if b.square_has_piece(5, 7) is False and \
+                       b.square_has_piece(6, 7) is False:
+                        valid_moves.append((7, 7))
+
+            if self.team == "black":
+                # Left (Queenside)
+                if isinstance(b.grid[0][0], Rook) and \
+                   b.grid[0][0].has_moved is False:
+                    if b.square_has_piece(1, 0) is False and \
+                       b.square_has_piece(2, 0) is False and \
+                       b.square_has_piece(3, 0) is False:
+                        valid_moves.append((0, 0))
+                # Right (Kingside)
+                if isinstance(b.grid[0][7], Rook) and \
+                   b.grid[0][7].has_moved is False:
+                    if b.square_has_piece(5, 0) is False and \
+                       b.square_has_piece(6, 0) is False:
+                        valid_moves.append((7, 0))
+
         return valid_moves

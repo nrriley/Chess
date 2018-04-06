@@ -354,7 +354,6 @@ class King(Piece):
                b.square_has_piece(x, y, opposite_team(self.team)):
                 valid_moves.append((x, y))
 
-
         # Castling
         if self.has_moved is False:
             if self.team == "white":

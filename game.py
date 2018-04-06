@@ -57,15 +57,41 @@ class Board:
                     "\ntried: (" + str(dest_x) + ", " + str(dest_y) + ")")
 
         # Check for Castling
-        if self.grid[dest_y][dest_x].team == p.team:
+        if hasattr(self.grid[dest_y][dest_x], "team") and \
+           self.grid[dest_y][dest_x].team == p.team:
             # Castling Occured
             # Set return values
             captured_piece = None
             old_x, old_y = p.x, p.y
-            # Swap pieces and update board
-            self.grid[p.y][p.x] = self.grid[dest_y][dest_x]
-            self.grid[dest_y][dest_x] = p
+
+            # Move pieces and update board
             self.grid[dest_y][dest_x].has_moved = True
+            p.has_moved = True
+            if dest_x > p.x:
+                # Kingside
+                # Move King
+                self.grid[p.y][dest_x-1] = p
+                # Move Rook
+                self.grid[p.y][dest_x-2] = self.grid[dest_y][dest_x]
+                # Update King's internal position
+                p.x = dest_x-1
+                # Update Rooks's internal position
+                self.grid[p.y][dest_x-2].x = dest_x-2
+            else:
+                # Queenside
+                # Move King
+                self.grid[p.y][dest_x+2] = p
+                # Move Rook
+                self.grid[p.y][dest_x+3] = self.grid[dest_y][dest_x]
+                # Update King's internal position
+                p.x = dest_x+2
+                # Update Rooks's internal position
+                self.grid[p.y][dest_x+3].x = dest_x+3
+
+            # Delete pieces from old position
+            self.grid[old_y][old_x] = None
+            self.grid[dest_y][dest_x] = None
+
         else:
             # No Castling occured
             # Set return values
@@ -74,6 +100,9 @@ class Board:
             # Updating board
             self.grid[dest_y][dest_x] = p
             self.grid[p.y][p.x] = None
+            # Updating fields of piece that moved
+            p.x, p.y = dest_x, dest_y
+            p.has_moved = True
 
         # Check if piece captured was passant and remove pawn if true
         if isinstance(captured_piece, Passant):
@@ -94,10 +123,6 @@ class Board:
            (dest_y is 4 and p.y is 6 and p.has_moved is False)):
             pas = Passant(p.x, (dest_y+p.y)//2, p.team)
             self.grid[(dest_y+p.y)//2][p.x] = pas
-
-        # Updating fields of piece that moved
-        p.x, p.y = dest_x, dest_y
-        p.has_moved = True
 
         return captured_piece, old_x, old_y, dest_x, dest_y
 
